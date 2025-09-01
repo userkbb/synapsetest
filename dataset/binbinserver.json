@@ -1,0 +1,26 @@
+{
+	"name": "binbinserver",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "binbinserver",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "nchar"
+			},
+			{
+				"name": "name",
+				"type": "nchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Table0711"
+		}
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

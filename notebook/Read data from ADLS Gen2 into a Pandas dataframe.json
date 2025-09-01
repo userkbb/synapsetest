@@ -1,0 +1,75 @@
+{
+	"name": "Read data from ADLS Gen2 into a Pandas dataframe",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Spark1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "20b7223d-7833-4f62-9c34-f5d5d63ea4c3"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/78df7407-a3a1-4a7c-9494-bb3055562dfe/resourceGroups/zhengshi/providers/Microsoft.Synapse/workspaces/migrationmltest/bigDataPools/Spark1",
+				"name": "Spark1",
+				"type": "Spark",
+				"endpoint": "https://migrationmltest.dev.azuresynapse.azure.cn/livyApi/versions/2019-11-01-preview/sparkPools/Spark1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"microsoft": {
+						"language": "python"
+					}
+				},
+				"source": [
+					"\n",
+					"\n",
+					"%%pyspark\n",
+					"data_path = spark.read.load('abfss://mlmigration@test0214gen2.dfs.core.chinacloudapi.cn/RetailSales.csv', format='csv', header=True)\n",
+					"data_path.show(10)\n",
+					"\n",
+					"print('Converting to Pandas.')\n",
+					"\n",
+					"pdf = data_path.toPandas()\n",
+					"print(pdf)"
+				],
+				"execution_count": 8
+			}
+		]
+	}
+}

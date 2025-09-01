@@ -1,0 +1,108 @@
+{
+	"name": "Create-Share Spark table",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "Spark1",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"runAsWorkspaceSystemIdentity": false,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "892f57d7-6d9a-4e0b-9244-767bb2f094b5"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"enableDebugMode": false,
+			"language_info": {
+				"name": "sql"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/78df7407-a3a1-4a7c-9494-bb3055562dfe/resourceGroups/zhengshi/providers/Microsoft.Synapse/workspaces/migrationmltest/bigDataPools/Spark1",
+				"name": "Spark1",
+				"type": "Spark",
+				"endpoint": "https://migrationmltest.dev.azuresynapse.azure.cn/livyApi/versions/2019-11-01-preview/sparkPools/Spark1",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net",
+					"authHeader": null
+				},
+				"sparkVersion": "3.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"extraHeader": null
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TABLE mytestlakedb.myparquettable(id int, name string, birthdate date) USING Parquet"
+				],
+				"execution_count": 11
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"DESCRIBE TABLE mytestlakedb.myparquettable;"
+				]
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"INSERT INTO mytestlakedb.myparquettable (id, name, birthdate)\n",
+					"VALUES\n",
+					"  (1, 'Alice', DATE '2010-01-01'),  -- 使用 DATE 关键字显式声明日期\n",
+					"  (2, 'Bob', DATE '1990-01-01');    -- 格式：YYYY-MM-DD"
+				],
+				"execution_count": 22
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"DESCRIBE EXTENDED mytestlakedb.myparquettable;"
+				],
+				"execution_count": 24
+			},
+			{
+				"cell_type": "code",
+				"metadata": {
+					"collapsed": false
+				},
+				"source": [
+					"CREATE TABLE mytestlakedb.myexternalparquettable\n",
+					"    USING Parquet\n",
+					"    LOCATION \"abfss://mlmigration@test0214gen2.dfs.core.chinacloudapi.cn/synapse/workspaces/migrationmltest/warehouse/mytestlakedb.db/myparquettable/\""
+				],
+				"execution_count": 25
+			}
+		]
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"name": "IntegrationRuntimetestpostgre",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

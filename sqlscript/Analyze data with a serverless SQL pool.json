@@ -1,0 +1,17 @@
+{
+	"name": "Analyze data with a serverless SQL pool",
+	"properties": {
+		"content": {
+			"query": " \n /*使用master数据库查询数据*/\n    SELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://test0214gen2.dfs.core.chinacloudapi.cn/mlmigration/NYCTripSmall.parquet',\n        FORMAT='PARQUET'\n    ) AS [result]\n\n /*创建数据库*/\nCREATE DATABASE DataExplorationDB \n                COLLATE Latin1_General_100_BIN2_UTF8\n\n/*从 DataExplorationDB 创建实用工具对象--简称*/\nCREATE EXTERNAL DATA SOURCE ContosoLake\nWITH ( LOCATION = 'https://test0214gen2.dfs.core.chinacloudapi.cn')\n\n/*列出简称*/\nSELECT \n    name AS 简称名称,\n    location AS 存储地址,\n    type_desc AS 数据源类型\nFROM \n    sys.external_data_sources;\n\n/*删除简称*/\nDROP EXTERNAL DATA SOURCE alwaysstorage; \nDROP EXTERNAL DATA SOURCE ContosoLake; \n\n/*为外部数据用户创建登录名*/\nCREATE LOGIN data_explorer WITH PASSWORD = 'P@ssw0rd!...';\n\n/*在 DataExplorationDB 中为上述登录名创建一个数据库用户，并授予其 ADMINISTER DATABASE BULK OPERATIONS 权限。*/\n\nCREATE USER data_explorer FOR LOGIN data_explorer;\nGO\nGRANT ADMINISTER DATABASE BULK OPERATIONS TO data_explorer;\nGO\n\n/*使用相对路径和数据源浏览文件的内容*/\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n            BULK '/mlmigration/NYCTripSmall.parquet',\n            DATA_SOURCE = 'ContosoLake',\n            FORMAT='PARQUET'\n    ) AS [result]\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

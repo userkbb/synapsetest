@@ -1,0 +1,17 @@
+{
+	"name": "Analyze data in a storage account",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://test0214gen2.dfs.core.chinacloudapi.cn/mlmigration/NYCTaxi/PassengerCountStats_parquetformat/part-00000-a84d0745-a2af-46e9-b7ca-83cd88e9fbe6-c000.snappy.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

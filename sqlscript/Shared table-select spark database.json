@@ -1,0 +1,17 @@
+{
+	"name": "Shared table-select spark database",
+	"properties": {
+		"content": {
+			"query": "\n\nSELECT * FROM sys.tables;\n\nSELECT * FROM mytestlakedb.dbo.myexternalparquettable WHERE name = 'Alice';\n\nSELECT * FROM myparquettable\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "mytestlakedb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

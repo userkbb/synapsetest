@@ -1,0 +1,17 @@
+{
+	"name": "Dedicated SQL pools db_owner role",
+	"properties": {
+		"content": {
+			"query": "CREATE USER [liang.haibin@microsoftinternal.partner.onmschina.cn] FROM EXTERNAL PROVIDER; \nEXEC sp_addrolemember 'db_owner', 'liang.haibin@microsoftinternal.partner.onmschina.cn'",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "SQLPOOL1",
+				"poolName": "SQLPOOL1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

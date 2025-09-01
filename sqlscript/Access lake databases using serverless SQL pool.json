@@ -1,0 +1,17 @@
+{
+	"name": "Access lake databases using serverless SQL pool",
+	"properties": {
+		"content": {
+			"query": "\nCREATE USER [liang.haibin@microsoftinternal.partner.onmschina.cn] FROM EXTERNAL PROVIDER;\nGO\nALTER ROLE db_datareader\nADD MEMBER [liang.haibin@microsoftinternal.partner.onmschina.cn];\n\nCREATE LOGIN [liang.haibin@microsoftinternal.partner.onmschina.cn] FROM EXTERNAL PROVIDER\nGRANT CONNECT ANY DATABASE TO [liang.haibin@microsoftinternal.partner.onmschina.cn]\nGRANT SELECT ALL USER SECURABLES TO [liang.haibin@microsoftinternal.partner.onmschina.cn]\n\nSELECT * FROM sys.databases;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "mytestlakedb",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

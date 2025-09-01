@@ -1,0 +1,17 @@
+{
+	"name": "Share Spark table",
+	"properties": {
+		"content": {
+			"query": "\n\nSELECT * FROM sys.tables;\n\nSELECT * FROM mytestlakedb.dbo.myexternalparquettable WHERE name = 'Alice';\n\nSELECT * FROM myparquettable\n\n\nEXEC sp_spaceused;\n\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "SQLPOOL1",
+				"poolName": "SQLPOOL1"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
