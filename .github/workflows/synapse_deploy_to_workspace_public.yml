@@ -1,0 +1,52 @@
+name: Deploy Synapse workspace to 'workspace_public' environment
+
+# 触发条件：当代码推送到 main 分支时触发工作流
+on:
+  push:
+    branches:
+      - main
+
+# 定义工作流的环境，用于GitHub的界面显示和审批
+env:
+  RESOURCE_GROUP: 'synapsesink' # 替换为你的资源组名称
+  TARGET_WORKSPACE: 'sinksynapsemigration'   # 你的目标工作区名称
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: 
+      name: workspace_public # 在GitHub UI中显示的环境名称
+      url: https://web.azuresynapse.net/workspaces/${{ env.TARGET_WORKSPACE }} # 部署后可点击的链接
+
+    steps:
+    # 1. 检出代码
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # 2. 登录到 Azure China
+    - name: Login to Azure China via Az module
+      # 使用 Azure/login 动作进行认证，并指定中国区环境
+      uses: Azure/login@v1
+      with:
+        # 关键：此处必须指定中国区的云环境名称
+        cloud: AzureChinaCloud
+        # 引用我们在Secrets中设置的全凭据JSON
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    # 3. 使用 Azure CLI 执行部署
+    - name: Deploy ARM template
+      run: |
+        # 使用 az deployment group create 命令进行部署
+        # 模板和参数文件路径根据你项目的实际结构修改
+        az deployment group create \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --template-file ./workspace_public/TemplateForWorkspace.json \
+          --parameters ./workspace_public/TemplateParametersForWorkspace.json \
+          --parameters workspacename="${{ env.TARGET_WORKSPACE }}" \
+          --name synapse_deploy_$(date +%s) # 给此次部署一个唯一名称
+
+    # 4. (可选) 登出 Azure（良好的安全实践）
+    - name: Logout from Azure
+      run: |
+        az logout
+      if: always() # 即使之前的步骤失败，也执行登出
