@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "migrationmltest"
+		},
+		"binbinserver_password": {
+			"value": ""
+		},
+		"migrationmltest-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:migrationmltest.sql.azuresynapse.azure.cn,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"sinksynapsemigration-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:sinksynapsemigration.sql.azuresynapse.azure.cn,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"testgen2_accountKey": {
+			"value": ""
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://notebooktest.vault.azure.cn/"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_connectionString_secretName": {
+			"value": "sql-connection-string"
+		},
+		"binbinserver_properties_typeProperties_server": {
+			"value": "binbinserver.database.chinacloudapi.cn"
+		},
+		"binbinserver_properties_typeProperties_database": {
+			"value": "db"
+		},
+		"binbinserver_properties_typeProperties_userName": {
+			"value": "dbuser"
+		},
+		"migrationmltest-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://test0214gen2.dfs.core.chinacloudapi.cn"
+		},
+		"sinksynapsemigration-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://sinkstorage.dfs.core.chinacloudapi.cn"
+		},
+		"testgen2_properties_typeProperties_url": {
+			"value": "https://testgen2.dfs.core.chinacloudapi.cn/"
+		}
+	}
+}
