@@ -1,12 +1,13 @@
-name: Deploy Synapse workspace to 'workspace_public' environment
+name: Deploy Synapse Workspace to Production
 
-# 触发条件：当代码推送到 main 分支时触发工作流
+# 触发器：当有代码推送到源Synapse的发布分支（通常是'workspace_publish'）时触发
 #on:
 #  push:
  #   branches:
-  #    - main
-
-  on:
+ #     - workspace_publish # 监听源Synapse的发布分支
+  #  paths:
+  #    - '**/*.json'       # 只关注JSON文件的变更，避免不必要的运行
+on:
   workflow_dispatch: 
 
 # 定义工作流的环境，用于GitHub的界面显示和审批
