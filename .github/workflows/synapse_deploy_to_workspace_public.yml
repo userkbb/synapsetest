@@ -1,10 +1,13 @@
 name: Deploy Synapse workspace to 'workspace_public' environment
 
 # 触发条件：当代码推送到 main 分支时触发工作流
-on:
-  push:
-    branches:
-      - main
+#on:
+#  push:
+ #   branches:
+  #    - main
+
+  on:
+  workflow_dispatch: 
 
 # 定义工作流的环境，用于GitHub的界面显示和审批
 env:
@@ -16,22 +19,26 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       name: workspace_public # 在GitHub UI中显示的环境名称
-      url: https://web.azuresynapse.net/workspaces/${{ env.TARGET_WORKSPACE }} # 部署后可点击的链接
+      
 
     steps:
     # 1. 检出代码
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+          ref: workspace_publish  # 确保检出的是发布分支
 
     # 2. 登录到 Azure China
-    - name: Login to Azure China via Az module
-      # 使用 Azure/login 动作进行认证，并指定中国区环境
-      uses: Azure/login@v1
-      with:
-        # 关键：此处必须指定中国区的云环境名称
-        cloud: AzureChinaCloud
-        # 引用我们在Secrets中设置的全凭据JSON
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: '{
+            "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+            "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+            "tenantId": "${{ secrets.AZURE_TENANT_ID }}",
+            "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}"
+          }'
+          environment: 'AzureChinaCloud'
 
     # 3. 使用 Azure CLI 执行部署
     - name: Deploy ARM template
