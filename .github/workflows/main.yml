@@ -1,0 +1,29 @@
+name: workspace deployment
+
+on:
+  workflow_dispatch:
+  
+uses: Azure/Synapse-workspace-deployment@V1.9.1
+  with:
+    # 请提供您希望部署这些工件的“Synapse”工作区名称。
+    TargetWorkspaceName: 'sinksynapsemigration'
+    # 指定工作区构件模板的路径。
+    TemplateFile: './migrationmltest/TemplateForWorkspace.json'
+    # 指定模板参数文件的路径
+    ParametersFile: './migrationmltest/TemplateParametersForWorkspace.json'
+    # 指定部署参数的值。
+    OverrideArmParameters: './migrationmltest/parameters.json'
+    # 请提供云环境的类型。有效的值包括：Azure 公有云、Azure 中国云、Azure 美国政府云、Azure 德国云。
+    Environment: 'AzureChinaCloud'
+    # 提供目标 Synapse 工作区的资源组信息。
+    resourceGroup: 'synapsesink'
+    # 提供服务主体的客户端标识。
+    clientId: '3d5935c5-8424-4d1c-bcf2-33809fd9fcc8'
+    # 提供服务主体的客户端密钥。
+    clientSecret: 'HNa014_9IeeNu2k3~gV-fJ.-5E4.1pJk.E'
+    # Provide subscription id.
+    subscriptionId: '78df7407-a3a1-4a7c-9494-bb3055562dfe'
+    # Provide tenant id.
+    tenantId: 'b388b808-0ec9-4a09-a414-a7cbbd8b7e9b'
+
+          
